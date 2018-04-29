@@ -1,12 +1,14 @@
 const express = require('express');
-const path = require('path');
 
 const instapics = require('./instapics');
 
 const app = express();
 
+app.set('views', './views');
+app.set('view engine', 'pug');
+
 app.get('/', (req, res, next) => {
-    res.sendFile(path.join(__dirname+'/public/index.html'));
+    res.render('index', {title: 'instaprova'});
 });
 
 app.get('/getpics/', (req, res, next) => {

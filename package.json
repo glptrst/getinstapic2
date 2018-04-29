@@ -19,6 +19,7 @@
   "homepage": "https://github.com/glptrst/getinstapic2#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pug": "^2.0.3"
   }
 }
