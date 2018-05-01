@@ -14,8 +14,15 @@ app.get('/', (req, res, next) => {
 
 app.get('/getpics/', (req, res, next) => {
     let link = decodeURIComponent(req.query.link);
-    instapics.getPage(link, res);
-    next();
+    let pagePromise = instapics.getPage(link);
+    pagePromise.then( (page) => {
+	res.set('Content-Type', 'text/plain');
+	res.send(page);
+	next();
+    }, (err) => {
+	console.log(err);
+	next();
+    });
 });
 
 app.listen(3000, () => console.log('Listening on port 3000!'));

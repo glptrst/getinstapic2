@@ -4,32 +4,30 @@ module.exports = {
     getPage: getPage
 };
 
-function getPage (url, handle) {
-    https.get(url, (res) => {
-	const { statusCode } = res;
-	const contentType = res.headers['content-type'];
+function getPage (url) {
+    return new Promise( (resolve, reject) => {
+	https.get(url, (res) => {
+	    const { statusCode } = res;
+	    const contentType = res.headers['content-type'];
 
-	let error;
-	if (statusCode !== 200) {
-	    error = new Error('Request Failed.\n' +
-			      `Status Code: ${statusCode}`);
-	}
-	let rawData = '';
-	res.on('data', (chunk) => {
-	    rawData += chunk;
-	});
-	res.on('end', () => {
-	    try {
-		// handle.statusCode = 200;
-		// handle.setHeader('Content-type', 'text/plain');
-		// handle.end(rawData);
-		handle.set('Content-Type', 'text/plain');
-		handle.send(rawData);
-	    } catch (e) {
-		console.error(e.message);
+	    let error;
+	    if (statusCode !== 200) {
+		error = new Error('Request Failed.\n' +
+				  `Status Code: ${statusCode}`);
 	    }
+	    let rawData = '';
+	    res.on('data', (chunk) => {
+		rawData += chunk;
+	    });
+	    res.on('end', () => {
+		try {
+		    resolve(rawData);
+		} catch (e) {
+		    reject(e);
+		}
+	    });
+	}).on('error', (e) => {
+	    reject(e);
 	});
-    }).on('error', (e) => {
-	console.error(`Got error: ${e.message}`);
     });
 };
