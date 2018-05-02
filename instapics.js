@@ -1,7 +1,8 @@
 const https = require('https');
 
 module.exports = {
-    getPage: getPage
+    getPage: getPage,
+    getProfilePageContainerLink: getProfilePageContainerLink
 };
 
 function getPage (url) {
@@ -30,4 +31,10 @@ function getPage (url) {
 	    reject(e);
 	});
     });
+};
+
+function getProfilePageContainerLink (page) {
+    //console.log(page);
+    let link = /\/static\/bundles\/base\/ProfilePageContainer.js\/\w+.js/.exec(page)[0];
+    return link;
 };

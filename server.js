@@ -12,17 +12,17 @@ app.get('/', (req, res, next) => {
     next();
 });
 
-app.get('/getpics/', (req, res, next) => {
+app.get('/getpics/', (req, res) => {
     let link = decodeURIComponent(req.query.link);
     let pagePromise = instapics.getPage(link);
-    pagePromise.then( (page) => {
-	res.set('Content-Type', 'text/plain');
-	res.send(page);
-	next();
-    }, (err) => {
-	console.log(err);
-	next();
-    });
+    pagePromise.
+	then((page) => {
+	    console.log(instapics.getProfilePageContainerLink(page));
+	    res.set('Content-Type', 'text/plain');
+	    res.send(instapics.getProfilePageContainerLink(page));
+	}, (err) => {
+	    console.log(err);
+	});
 });
 
 app.listen(3000, () => console.log('Listening on port 3000!'));
