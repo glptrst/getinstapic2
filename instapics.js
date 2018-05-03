@@ -34,7 +34,6 @@ function getPage (url) {
 };
 
 function getProfilePageContainerLink (page) {
-    //console.log(page);
     let link = /\/static\/bundles\/base\/ProfilePageContainer.js\/\w+.js/.exec(page)[0];
     return link;
 };
