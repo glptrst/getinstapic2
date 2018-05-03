@@ -2,7 +2,8 @@ const https = require('https');
 
 module.exports = {
     getPage: getPage,
-    getProfilePageContainerLink: getProfilePageContainerLink
+    getProfilePageContainerLink: getProfilePageContainerLink,
+    getQueryHash: getQueryHash
 };
 
 function getPage (url) {
@@ -36,4 +37,10 @@ function getPage (url) {
 function getProfilePageContainerLink (page) {
     let link = /\/static\/bundles\/base\/ProfilePageContainer.js\/\w+.js/.exec(page)[0];
     return link;
+};
+
+function getQueryHash (page) {
+    let queryHash = /o.pagination:o},queryId:"\w+"/.exec(page)[0];
+    queryHash = queryHash.slice(queryHash.indexOf('queryId:"') + 9, queryHash.length-1);
+    return queryHash;
 };
