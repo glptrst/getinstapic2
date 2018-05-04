@@ -13,12 +13,14 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/getpics', (req, res) => {
+    let id;
     let queryHash;
     let username = decodeURIComponent(req.query.link);
     let instaPageLink = `https://www.instagram.com/${username}/`;
     let pagePromise = instapics.getPage(instaPageLink);
     pagePromise.
 	then((page) => {
+	    id = instapics.getId(page);
 	    let profilePageContainerLink = 'https://www.instagram.com' + instapics.getProfilePageContainerLink(page);
 	    // return a promise to the profile page container
 	    return instapics.getPage(profilePageContainerLink);

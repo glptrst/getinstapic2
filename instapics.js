@@ -3,7 +3,8 @@ const https = require('https');
 module.exports = {
     getPage: getPage,
     getProfilePageContainerLink: getProfilePageContainerLink,
-    getQueryHash: getQueryHash
+    getQueryHash: getQueryHash,
+    getId: getId
 };
 
 function getPage (url) {
@@ -32,15 +33,21 @@ function getPage (url) {
 	    reject(e);
 	});
     });
-};
+}
 
 function getProfilePageContainerLink (page) {
     let link = /\/static\/bundles\/base\/ProfilePageContainer.js\/\w+.js/.exec(page)[0];
     return link;
-};
+}
+
+function getId (page) {
+    let id = /"owner":{"id":"\d+/.exec(page)[0];
+    id = id.slice(15, id.length);
+    return id;
+}
 
 function getQueryHash (page) {
     let queryHash = /o.pagination:o},queryId:"\w+"/.exec(page)[0];
     queryHash = queryHash.slice(queryHash.indexOf('queryId:"') + 9, queryHash.length-1);
     return queryHash;
-};
+}
