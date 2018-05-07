@@ -2,7 +2,7 @@ const https = require('https');
 
 module.exports = {
     getPage: getPage,
-    getProfilePageContainerLink: getProfilePageContainerLink,
+    getProfilePageContainerPath: getProfilePageContainerPath,
     getQueryHash: getQueryHash,
     getId: getId
 };
@@ -35,7 +35,7 @@ function getPage (url) {
     });
 }
 
-function getProfilePageContainerLink (page) {
+function getProfilePageContainerPath (page) {
     let link = /\/static\/bundles\/base\/ProfilePageContainer.js\/\w+.js/.exec(page)[0];
     return link;
 }
