@@ -16,22 +16,21 @@ app.get('/getpics', (req, res) => {
     let id;
     let queryHash;
     let username = decodeURIComponent(req.query.link);
-    let instaPageLink = `https://www.instagram.com/${username}/`;
-    let pagePromise = instapics.getPage(instaPageLink);
+    let pagePromise = instapics.getPage({host: 'www.instagram.com', path: '/'+username+'/'});
     pagePromise.
 	then((page) => {
 	    // scrape id from the page
 	    id = instapics.getId(page);
-	    // get link to profile page container
-	    let profilePageContainerLink = 'https://www.instagram.com' + instapics.getProfilePageContainerPath(page);
+	    // get path to profile page container
+	    let profilePageContainerPath = instapics.getProfilePageContainerPath(page);
 	    // return a promise to the profile page container
-	    return instapics.getPage(profilePageContainerLink);
+	    return instapics.getPage({host: 'www.instagram.com', path: instapics.getProfilePageContainerPath(page)});
 	}, (err) => {
 	    console.log(err);
 	})
 	.then( (profilePageContainer) => {
 	    // scrape query hash from profile page container
-	    queryHash = instapics.getQueryHash(profilePageContainer);
+	    queryHash = instapics.getQueryHash(profilePageContainer+'/');
 	    res.set('Content-Type', 'text/plain');
 	    res.send(profilePageContainer);
 	}, (err) => {

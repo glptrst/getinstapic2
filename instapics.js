@@ -7,9 +7,9 @@ module.exports = {
     getId: getId
 };
 
-function getPage (url) {
+function getPage (options) {
     return new Promise( (resolve, reject) => {
-	https.get(url, (res) => {
+	https.get(options, (res) => {
 	    const { statusCode } = res;
 	    const contentType = res.headers['content-type'];
 
